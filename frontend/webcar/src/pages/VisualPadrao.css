@@ -1,0 +1,23 @@
+.logo {
+    height: 100px;
+    margin: 16px;
+    border-radius: 0.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.site-layout .site-layout-background {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ccc;
+
+}
+  [data-theme="dark"] .site-layout .site-layout-background {
+    background: #141414;
+  }
+.gravatar{
+  width: 5rem;
+}
+

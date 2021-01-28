@@ -5,15 +5,12 @@ import Routes from './routes';
 import history from './history';
 
 import {AuthProvider} from './Context/AuthContext'
-import {VisualProvider} from './Context/VisualContext'
 function App() {
   return (
     <AuthProvider>
-      <VisualProvider>
-        <Router history={history}>
-          <Routes />
-        </Router>
-      </VisualProvider>
+      <Router history={history}>
+        <Routes />
+      </Router>
     </AuthProvider>
   );
 }

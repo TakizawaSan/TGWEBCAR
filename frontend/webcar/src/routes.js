@@ -6,7 +6,7 @@ import { Context } from './Context/AuthContext'
 import Login from './pages/Login';
 import Oficina from './pages/Oficina';
 import Mecanico from './pages/Mecanico';
-import Cliente from './pages/Cliente';
+import Cliente from './pages/Cliente/Cliente';
 
 import SiderDemo from './pages/VisualPadrao';
 

@@ -8,7 +8,6 @@ export default function useAuth(){
     const [ permissionCamaleao, setPermission ] = useState([]);
     const [ authenticated, setAthenticated ] = useState(false)
     const [ loading, setLoading ] = useState(true)
-
     useEffect(() =>{
         
         const token = localStorage.getItem('token')
@@ -37,7 +36,6 @@ export default function useAuth(){
         setId(id)
         setPermission(permission)
         
-        
         history.push(`/${permission}`)
         
     
@@ -50,7 +48,7 @@ export default function useAuth(){
         localStorage.setItem('permissionSafe', '')
         api.defaults.headers.Authorization = undefined
         history.push('/login')
-    
+        
     }
 
     return { authenticated, loading, idCamelao, permissionCamaleao, handleLogin, handleLogout }

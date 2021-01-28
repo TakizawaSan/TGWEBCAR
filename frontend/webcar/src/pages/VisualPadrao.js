@@ -72,7 +72,7 @@ function SiderDemo() {
             
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Web Car ©2020 Created by Diego Roberto</Footer>
+        <Footer style={{ textAlign: 'center' }}>Web Car ©2020 Criado por Diego Roberto</Footer>
       </Layout>
     </Layout>
   );

@@ -1,6 +1,6 @@
 import React, {  useEffect, useContext } from 'react';
 
-import api from '../api';
+import api from '../app/api';
 
 import { Context } from '../Context/AuthContext'
 

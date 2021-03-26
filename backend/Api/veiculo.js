@@ -45,7 +45,12 @@ module.exports = app =>{
             .then(camaleao => res.json(camaleao))
             .catch(err => res.status(500).send(err))
     }
-    
+    const getByCliente = (req, res) => {
+        app.db('veiculo')
+            .where({ idCliente: req.params.id })
+            .then(camaleao => res.json(camaleao))
+            .catch(err => res.status(500).send(err))
+    }
     const remove = async (req, res) => {
         
         try {
@@ -66,5 +71,5 @@ module.exports = app =>{
             res.status(500).send(msg)
         }
     }
-    return { save, get, remove, getById }
+    return { save, get, remove, getById, getByCliente }
 }

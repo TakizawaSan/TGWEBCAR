@@ -19,13 +19,13 @@ function DashBC(props) {
             </Breadcrumb>
             <div className="" style={{ padding: 24, minHeight: 360, backgroundColor:''}}>
             <Tabs defaultActiveKey="1">
-                <TabPane tab={<Title level={5}>Informações Gerais</Title>} key="1">
+                <TabPane tab={<Title level={5}>Manutenções em Andamento</Title>} key="1">
                     <Row justify="center">
                         <CardComp {...Dados} handleClick={handleClick}></CardComp>
                         <Button key='4' type="primary" block onClick={handleClick} style={{marginTop:"1.5vh"}}> Detalhes </Button>  
                     </Row>
                 </TabPane>
-                <TabPane tab={<Title level={5}>Manutenção em Andamento</Title>} key="2">
+                <TabPane tab={<Title level={5}>Manutenções Finalizadas</Title>} key="2">
                     <Row justify="center" gutter={24}>
                         <CardComp/>
                     </Row>

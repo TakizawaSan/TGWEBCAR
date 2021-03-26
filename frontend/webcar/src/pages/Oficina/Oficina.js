@@ -1,26 +1,57 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom'
 
 import { Layout } from "antd";
 
 import  DashBoard  from './telasOficina/dashBoardOficina'
 import  Perfil  from './telasOficina/perfilOficina'
-import Adm from './telasOficina/adm'
+import Atividade from './telasOficina/atividadeOficina'
 import Sider from "../Components/Sider";
+
+import manutencaoService from '../../app/service/tabelas/manutencaoService'
 
 const { Content, Footer } = Layout;
 
 
-export default function Users() {
-
+function Oficina() {
+  const [manutencao, updateManutencao] = useState({andamento:[], finalizada:[]});
+  // buscas no banco
+  const buscaManutenção = async ()=> {
+    let service = new manutencaoService()
+    await service.obterManutencao()
+    .then( response => {
+      response.data.map(manu =>(
+        updateManutencao(
+          {andamento: manu.dataTermino? null : manu,
+          finalizada: manu.dataTermino? manu : null})
+      ))
+    }).catch(erro => {
+        console.log(erro)
+    })
+  };
+  const cadastrarManutencao = async (manutencao) =>{
+    alert()
+    let service = new manutencaoService()
+    await service.cadastrarManutencao(manutencao)
+    .then( response => {
+        console.log(response)
+    }).catch(erro => {
+        console.log(erro)
+    })
+  }
+  console.log(manutencao)
+  
+  // Menu
   const components = {
-    1: <DashBoard />,
+    1: <DashBoard cadastrarManutencao={cadastrarManutencao} />,
     2: <Perfil />,
-    3: <Adm />
+    3: <Atividade />
   };
   
   const [render, updateRender] = useState(1);
 
   const handleMenuClick = menu => {
+    buscaManutenção()
     updateRender(menu.key);
   };
 
@@ -36,3 +67,5 @@ export default function Users() {
     </div>
   );
 }
+
+export default withRouter(Oficina)

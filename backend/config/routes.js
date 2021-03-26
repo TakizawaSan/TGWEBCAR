@@ -60,6 +60,11 @@ module.exports = app => {
         .put(access(app.api.veiculo.save))
         .delete(access(app.api.veiculo.remove))
 
+    app.route('/AGNveiculo_cliente/:id')
+        .all(app.config.passport.authenticate())
+        .get(access(app.api.veiculo.getByCliente))
+        
+
      app.route('/AGNmanutencao')
         .all(app.config.passport.authenticate())
         .post(access(app.api.manutencao.save))
@@ -70,7 +75,7 @@ module.exports = app => {
         .get(access(app.api.manutencao.getById))
         .put(access(app.api.manutencao.save))
         .delete(access(app.api.manutencao.remove))
-    
+
     app.route('/AGNatividade')
         .all(app.config.passport.authenticate())
         .get(access(app.api.atividade.get))

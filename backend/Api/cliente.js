@@ -61,7 +61,6 @@ module.exports = app =>{
     }
     const getById = (req, res) => {
         app.db('cliente')
-            .select('id', 'nome', 'idLogin')
             .where({ id: req.params.id })
             .first()
             .then(camaleao => res.json(camaleao))

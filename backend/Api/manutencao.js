@@ -46,6 +46,7 @@ module.exports = app =>{
             .catch(err => res.status(500).send(err))
     }
     
+    
     const remove = async (req, res) => {
         try {
             const manutencaoAtividade = await app.db('manutencao-atividade')

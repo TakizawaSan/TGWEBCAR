@@ -1,25 +1,48 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Layout } from "antd";
 import  DashBoard  from './telasCliente/dashBoardCliente'
 import  Perfil  from './telasCliente/perfilCliente'
-import Sider from "../Components/Sider"
+import Sider from "../Components/SiderCliente"
 import Detalhes from './telasCliente/detalhes'
 
-import { AuthContext  } from '../../main/provedorAutentificacao'
-// import LocalStorageService from '../../app/service/localstorageService'
+//import { AuthContext  } from '../../main/provedorAutentificacao'
+import LocalStorageService from '../../app/service/localstorageService'
 import { withRouter } from 'react-router-dom'
+import clienteService from '../../app/service/tabelas/clienteService'
 
 
 const { Content, Footer } = Layout;
 
 
 function Cliente() {
-  const Context = useContext(AuthContext)
+  ///const Context = useContext(AuthContext)
 
   const [render, updateRender] = useState(1);
-  
-  const handleMenuClick = menu => {
-    console.log(menu.key)
+  const [infoCliente, updateinfoCliente] = useState([]);
+  const [infoVeiculos, updateinfoVeiculos] = useState([]);
+
+  const usuarioLogado = LocalStorageService.obterItem('_usuario_logado')
+
+  const buscaCliente = async ()=> {
+    let service = new clienteService()
+    await service.obterDadosCliente( usuarioLogado )
+    .then( response => {
+      updateinfoCliente(response.data)
+    }).catch(erro => {
+        console.log(erro)
+    })
+    await service.obterVeiculosCliente( usuarioLogado )
+    .then( response => {
+      updateinfoVeiculos(response.data)
+    }).catch(erro => {
+        console.log(erro)
+    })
+
+  };  
+  const handleMenuClick = async menu => {
+    if(menu.key == 2){
+      await buscaCliente()
+    }
     updateRender(menu.key);
   };
   const handleCompClick = (props) => {
@@ -29,7 +52,7 @@ function Cliente() {
   }
   const components = {
     1: <DashBoard handleClick={handleCompClick} />,
-    2: <Perfil />,
+    2: <Perfil dados={infoCliente} veiculos={infoVeiculos}/>,
     4: <Detalhes />
   };
   return (

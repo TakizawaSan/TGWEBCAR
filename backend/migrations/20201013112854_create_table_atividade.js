@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
         table.increments('id').primary()
         table.string('titulo').notNull()
         table.string('descricao').notNull()
+        table.decimal('tempoEstimado').notNull()
         table.integer('idAtividade').references('id').inTable('atividade')
 
     })

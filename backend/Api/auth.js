@@ -35,7 +35,7 @@ module.exports = app => {
                 if(isEmpty(idLoginMecanico) == false){
                     
                     user = idLoginMecanico
-                    permission = 'mecanico'
+                    permission = 'funcionario'
                 }else{
                     
                     const idLoginOficina = await app.db('oficina')
@@ -58,10 +58,15 @@ module.exports = app => {
                 iat: now,
                 exp: now + (60 * 60 * 24 * 1)
             }
+            const infor ={
+                id: user.id,
+                idLogin: user.idLogin,
+                permission: permission,
+            }
             
             
             res.json({
-                ...payload,
+                ...infor,
                 token: jwt.encode(payload, authSecret)
             })
             

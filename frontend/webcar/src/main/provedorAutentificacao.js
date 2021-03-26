@@ -9,6 +9,7 @@ export const AuthConsumer = AuthContext.Consumer;
 
 const AuthProvider = AuthContext.Provider;
 const usuarioLogado = LocalStorageService.obterItem('_usuario_logado')
+console.log(usuarioLogado)
 const statusLogin = usuarioLogado ? true:false
 class ProvedorAutenticacao extends React.Component{
     

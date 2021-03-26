@@ -3,7 +3,6 @@ import { AuthConsumer } from './provedorAutentificacao'
 
 import Login from '../pages/Login';
 import Oficina from '../pages/Oficina/Oficina';
-import Mecanico from '../pages/Mecanico';
 import Cliente from '../pages/Cliente/Cliente';
 
 
@@ -33,7 +32,7 @@ function Rotas(props){
                 <Route path="/login" component={Login} />
                 
                 <RotaAutenticada isUsuarioAutenticado={props.isUsuarioAutenticado} path="/oficina" component={Oficina} />
-                <RotaAutenticada isUsuarioAutenticado={props.isUsuarioAutenticado} path="/mecanico" component={Mecanico} />
+                <RotaAutenticada isUsuarioAutenticado={props.isUsuarioAutenticado} path="/funcionario" component={Oficina} />
                 <RotaAutenticada isUsuarioAutenticado={props.isUsuarioAutenticado} path="/cliente" component={Cliente} />
             </Switch>
         </HashRouter>

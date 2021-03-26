@@ -5,9 +5,9 @@ import { Layout, Menu} from 'antd';
 import { AuthContext  } from '../../main/provedorAutentificacao'
 
 import { 
-    FileDoneOutlined,
-    AuditOutlined,
-    CarOutlined,
+    UserOutlined,
+    DesktopOutlined,
+    PieChartOutlined,
     LogoutOutlined
 }from '@ant-design/icons';
 
@@ -29,14 +29,11 @@ function SiderComp(props) {
         </div>
         
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" >
-          <Menu.Item key="1" onClick={handleClick} icon={<CarOutlined />} >
-          Manutenções
+          <Menu.Item key="1" onClick={handleClick} icon={<PieChartOutlined />} >
+          DashBoard
           </Menu.Item>
-          <Menu.Item key="2" onClick={handleClick} icon={<AuditOutlined />}>
-          Clientes
-          </Menu.Item>
-          <Menu.Item key="3" onClick={handleClick} icon={<FileDoneOutlined />}>
-          Atividades
+          <Menu.Item key="2" onClick={handleClick} icon={<UserOutlined />}>
+          Perfil
           </Menu.Item>
           <Menu.Item onClick={encerrarSessao} icon={<LogoutOutlined rotate='180' />}>
           Sair

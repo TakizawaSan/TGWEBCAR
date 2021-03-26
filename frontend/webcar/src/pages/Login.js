@@ -5,16 +5,16 @@ import { Layout, Row, } from 'antd';
 import { Form, Input, Checkbox } from 'antd';
 
 import { AuthContext  } from '../main/provedorAutentificacao'
-import LocalStorageService from '../app/service/localstorageService'
-import LoginService from '../app/service/loginService'
+// import LocalStorageService from '../app/service/localstorageService'
+import LoginService from '../app/service/tabelas/loginService'
 import { withRouter } from 'react-router-dom'
 
 
 const {  Content } = Layout;
 
 function Login(props) {
-  const usuarioLogado = LocalStorageService.obterItem('_usuario_logado');
-  console.log(usuarioLogado)
+  // const usuarioLogado = LocalStorageService.obterItem('_usuario_logado');
+  // console.log(usuarioLogado)
   const Context = useContext(AuthContext)
 
   const onFinish = async (values)=> {

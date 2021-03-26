@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
-//{useState, useContext}
-import { Typography, Button, Layout, Breadcrumb,Row, Tabs} from 'antd';
+import { Typography, Button, Layout, Breadcrumb, Row, Tabs} from 'antd';
 import { PlusOutlined } from '@ant-design/icons'
-import Table from '../../Components/PerfilTable'
-import Form from '../../Components/PerfilForm'
+import Table from '../../Components/AtivTable'
+import Form from '../../Components/AtivForm'
 import '../../VisualPadrao.css'
 
 const { TabPane } = Tabs;
@@ -20,11 +19,11 @@ function PerfilOficina(props) {
         <Content style={{ margin: '0 16px'}}>
             <Breadcrumb style={{ margin: '16px 0' }}>
                 <Breadcrumb.Item>Oficina</Breadcrumb.Item>
-                <Breadcrumb.Item>Clientes</Breadcrumb.Item>
+                <Breadcrumb.Item>Atividades</Breadcrumb.Item>
             </Breadcrumb>
             <div className="" style={{ padding: 24, minHeight: 360, backgroundColor:''}}>
             <Tabs defaultActiveKey="1">
-                <TabPane tab={<Title level={5}>Edição de Clientes</Title>} key="1">
+                <TabPane tab={<Title level={5}>Edição das Atividades</Title>} key="1">
                     <Button type={render ? "default":"primary"} onClick={addClick} className='btn-add' ><PlusOutlined rotate={render ? 90:null}  /> Novo Cliente </Button>
                     <Row>   
                         {render ? 

@@ -5,13 +5,16 @@ import { Collapse } from 'antd';
 
 const { Panel } = Collapse;
 
-const Forms = () =>{
+const Forms = ({ fields, acao }) =>{
+
   const onFinish = (fieldsValue) => {
-    const values = fieldsValue
+    const values = fields[0].id === '' ? fieldsValue : { id: fields[0].id, ...fieldsValue}
     console.log('Received values of form:', values);
+    acao(values)
   };
   return(
-    <Form name="time_related_controls" onFinish={onFinish}> 
+    <Form name= "time_related_controls" onFinish={onFinish} 
+          fields={fields}> 
       <Form.Item 
         label="Titulo"
         className='inpForm'
@@ -38,9 +41,9 @@ const Forms = () =>{
         fieldKey='tempoEstimado'
         rules={[{ required: true,  message: 'Ex: 32h' }]}
       >
-        <InputNumber formatter={value => `${value}h`}
+        <InputNumber formatter={value => `${value} horas`}
                       min={0} style={{width:'30%'}}
-                      parser={value => value.replace('h', '')} 
+                      parser={value => value.replace('horas', '')} 
                       placeholder="Tempo Estimidado da Atividade" />
       </Form.Item>
 
@@ -52,15 +55,17 @@ const Forms = () =>{
     </Form>
   )
 }
-const FormEdit = () => {
+const FormEdit = props => {
+  const { acao, fields } = props
   return (
     <Collapse bordered={false}  className='form'  defaultActiveKey={['1']}>
-      <Panel header="Novo Cliente"  key="1">
-        <Forms/>
+      <Panel header={fields[0].id === '' ? "Nova Atividade":'Editar Atividade' }  key="1">
+        <Forms  acao={ acao } fields={fields}  />
       </Panel>
   </Collapse>
     
   );
+  
 };
 
 export default FormEdit

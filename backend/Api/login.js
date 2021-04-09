@@ -14,8 +14,7 @@ module.exports = app => {
         try {
             existsOrError(loginCons.usuario, 'Usuario não informado')
             existsOrError(loginCons.senha, 'Senha não informada')
-            existsOrError(loginCons.confirmarSenha, 'Confirmação de Senha inválida')
-            equalsOrError(loginCons.senha, loginCons.confirmarSenha, 'Senhas não conferem')
+            
 
             const loginFromDB = await app.db('login')
                 .where({ usuario: loginCons.usuario }).first()
@@ -36,12 +35,13 @@ module.exports = app => {
             .then(_ => res.status(204).send())
             .catch(err => res.status(500).send(err))
         } else {
-            console.log('To Aqui')
+            console.log('AQUI')
             app.db('login')
-            .insert(loginCons)
-            .then(_ => res.status(204).send())
-            .catch(err => res.status(500).send(err))
-        }
+                .insert(loginCons)
+                .returning('id')
+                .then(id => res.json(id))
+                .catch(err => res.status(500).send(err))
+            }
     }
 
     const get = (req, res) => {

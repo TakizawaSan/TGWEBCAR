@@ -7,11 +7,6 @@ module.exports = app =>{
         if(req.params.id) veiculoCost.id = req.params.id
 
         try {
-            existsOrError(veiculoCost.descricao, 'Descrição não informada')
-            existsOrError(veiculoCost.ano, 'Ano não informado')
-            existsOrError(veiculoCost.placa, 'Placa não informada')
-            existsOrError(veiculoCost.idCliente, 'Cliente não informado')  
-
             if(veiculoCost.id) {
                 app.db('veiculo')
                     .update(veiculoCost)
@@ -33,7 +28,6 @@ module.exports = app =>{
     }
     const get = (req, res) => {
         app.db('veiculo')
-            .select('id', 'descricao', 'idCliente')
             .then(camaleao => res.json(camaleao))
             .catch(err => res.status(500).send(err))
     }

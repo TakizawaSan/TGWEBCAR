@@ -11,12 +11,12 @@ import { Route, Switch, HashRouter, Redirect } from 'react-router-dom'
 function RotaAutenticada( { component: Component, isUsuarioAutenticado, ...props } ){
     return (
         <Route {...props} render={ (componentProps) => {
-            console.log(isUsuarioAutenticado)
             if(isUsuarioAutenticado){
                 return (
                     <Component {...componentProps} />
                 )
             }else{
+                console.log(isUsuarioAutenticado)
                 return(
                     <Redirect to={ {pathname : '/login', state : { from: componentProps.location } } } />
                 )

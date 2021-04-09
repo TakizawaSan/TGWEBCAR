@@ -3,25 +3,16 @@ import { Table, Input, Button, Space, Popconfirm, Descriptions} from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined, RestOutlined,EditTwoTone } from '@ant-design/icons';
 
-const data = [];
-for (let i = 10; i < 50; i++) {
-  data.push({
-    key: i,
-    nome: `John Brown ${i}`,
-    telefone:'(16) 98171-7322',
-    endereco: `Rua Ipiranga das ${i}`,
-    numero: `${i}`,
-    complemento: 'Itapuã Fundo',
-    veiculos:  [{ id:`${i}` ,descricao: 'ASTRA PRETO', placa: `ADS1${i}`, ano:'2020'},
-                { id:`${i+1}` ,descricao: 'ASTRA PRETO', placa: `ADS1${i}`, ano:'2020'}]
-  },);
-}
-
 class App extends React.Component {
-  state = {
-    searchText: '',
-    searchedColumn: '',
-  };
+  constructor(props){
+    super(props)
+    //console.log(props)
+    props.buscarCliente()
+    this.state = {
+      searchText: '',
+      searchedColumn: '',
+    };
+  }
 
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -111,6 +102,13 @@ class App extends React.Component {
       ))
   }
   render() {
+    const clientes = this.props.clientes
+    const veiculos = this.props.veiculos
+
+    const dados = clientes.map( cliente => ({ key:cliente.id + '1',...cliente, 
+                  veiculos: veiculos.map(veiculo => (veiculo.idCliente === cliente.id ? veiculo : undefined))
+                  .filter((veiculo) => veiculo !== undefined)}))
+                              
     const columns = [
       {
         title: 'Nome',
@@ -144,14 +142,16 @@ class App extends React.Component {
         ...this.getColumnSearchProps('complemento'),
       },
       {
-        title: '',
-        dataIndex: 'operation',
+        title: 'id',
+        dataIndex: 'id',
         width: '8%',
-        render: () =>
+        render: id =>
           (
             <>
-            <a><EditTwoTone style={{ fontSize: '20px', marginRight:'1rem'}} /></a>
-            <Popconfirm title="Deseja excluir essa manutenção?" onConfirm={() => this.handleDelete()}>
+            <Popconfirm title=" Editar a manutenção?" onConfirm={() => this.props.handleEdit(id)}>
+              <EditTwoTone style={{ fontSize: '20px', marginRight:'1rem'}} />
+            </Popconfirm>
+            <Popconfirm title="Deseja excluir essa manutenção?" onConfirm={() => this.props.handleDelete(id)}>
               <RestOutlined style={{ fontSize: '20px', color: '#08c' }}/>
             </Popconfirm>
             
@@ -159,7 +159,7 @@ class App extends React.Component {
           )
       }
     ];
-    return <Table bordered columns={columns}  dataSource={data} scroll={{ x: 400 }} 
+    return <Table bordered columns={columns}  dataSource={dados} scroll={{ x: 400 }} 
             expandable={{
                 expandedRowRender: record => 
                 <Descriptions title="Veiculos Relacionados">

@@ -8,7 +8,6 @@ module.exports = app =>{
 
         try {
             existsOrError(manutencaoConst.dataInicio, 'Data de Inicio não informada')
-            existsOrError(manutencaoConst.dataTermino, 'Data de Termino não informada')
             existsOrError(manutencaoConst.idVeiculo, 'Veiculo não informado')
             existsOrError(manutencaoConst.idMecanico, 'Mecanico não informado')    
 
@@ -21,7 +20,8 @@ module.exports = app =>{
             }else{
                 app.db('manutencao')
                     .insert(manutencaoConst)
-                    .then(_ => res.status(204).send())
+                    .returning('id')
+                    .then(id => res.json(id))
                     .catch(err => res.status(500).send(err))
             }
 
@@ -33,10 +33,10 @@ module.exports = app =>{
     }
     const get = (req, res) => {
         app.db('manutencao')
-            .select('id', 'dataInicio', 'dataTermino','idVeiculo','idMecanico')
             .then(camaleao => res.json(camaleao))
             .catch(err => res.status(500).send(err))
     }
+    
     const getById = (req, res) => {
         app.db('manutencao')
             .select('id', 'dataInicio', 'dataTermino','idVeiculo','idMecanico')

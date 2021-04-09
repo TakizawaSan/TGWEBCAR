@@ -5,6 +5,7 @@ class ManutencaoService extends ApiService {
     constructor(){
         super('')
         this.manutencao = `/AGNmanutencao`
+        this.atividade = '/AGNatividade'
     }
     obterManutencao(){
         return this.get(`${this.manutencao}`)
@@ -14,6 +15,16 @@ class ManutencaoService extends ApiService {
     }
     cadastrarManutencao(manutencao){
         return this.post(`${this.manutencao}`, manutencao)
+    }
+
+    obterAtividade(){
+        return this.get(`${this.atividade}`)
+    }
+    obterAtividadeId(id){
+        return this.get(`${this.atividade}/${id}`);
+    }
+    cadastrarAtividade(atividade){
+        return this.post(`${this.atividade}`, atividade)
     }
     
 }

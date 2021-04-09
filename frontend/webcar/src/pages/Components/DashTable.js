@@ -1,26 +1,47 @@
 import React from 'react';
-import { Table, Input, Button, Space, Popconfirm } from 'antd';
+import { Table, Input, Button, Space, Popconfirm, Typography } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined, RestOutlined,EditTwoTone } from '@ant-design/icons';
 import moment from 'moment';
-
-const data = [];
-for (let i = 10; i < 50; i++) {
-  data.push({
-    key: i,
-    titulo: `John Brown ${i}`,
-    descricao:'Uma descrição longo ou curta, tanto faz o importante que aprareca ao clicar no maiszinho',
-    dataInicio: `20/03/20${i} 08:00`,
-    dataTermino: `22/03/2021 20:${i}`,
-  },);
-}
+const { Title } =  Typography;
 
 class App extends React.Component {
-  state = {
-    searchText: '',
-    searchedColumn: '',
-  };
-
+  constructor(props){
+    super(props)
+    console.log(props)
+    props.buscaManutencao()
+    this.state = {
+      searchText: '',
+      searchedColumn: '',
+    };
+  }
+  
+  multipicaDados = dados =>{
+    const data = [];
+    for (let i = 10; i < 50; i++) {
+      data.push({
+        key: i,
+        titulo: `${dados.titulo} ${i}`,
+        descricao: dados.descricao,
+        dataInicio: dados.dataInicio,
+        dataTermino: dados.dataTermino
+      },);
+    }
+    return data
+  }
+  organizaDados = dados =>{
+    dados.map(dado => (
+      {
+        key: dado.id + '1',
+        titulo: dado.titulo,
+        descricao: dado.descricao,
+        dataInicio: dado.dataInicio,
+        dataTermino: dado.dataTermino
+      }
+    ))
+    return dados
+  }
+  
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
@@ -98,8 +119,11 @@ class App extends React.Component {
     clearFilters();
     this.setState({ searchText: '' });
   };
-
   render() {
+    const dado = this.props.manutencao
+    //const dados = this.multipicaDados(dado)
+    const dados = dado.map( dad => ({key:dad.id + '1', ...dad}))
+    //const dados = this.organizaDados([dado])
     const columns = [
       {
         title: 'Titulo',
@@ -120,19 +144,22 @@ class App extends React.Component {
       {
         title: 'Data de Termino',
         dataIndex: 'dataTermino',
-        sorter: (a, b) => moment(a.dataInicio, 'DD/MM/YYYY HH:mm') - moment(b.dataInicio, 'DD/MM/YYYY HH:mm'),
+        sorter: (a, b) => moment(a.dataTermino, 'DD/MM/YYYY HH:mm') - moment(b.dataTermino, 'DD/MM/YYYY HH:mm'),
         key: 'dataTermino',
         width: '35%',
       },
       {
         title: '',
-        dataIndex: 'operation',
+        dataIndex: 'id',
         width: '8%',
-        render: () =>
+        render: id =>
           (
             <>
-            <a><EditTwoTone style={{ fontSize: '20px', marginRight:'1rem'}} /></a>
-            <Popconfirm title="Deseja excluir essa manutenção?" onConfirm={() => this.handleDelete()}>
+            <Popconfirm title=" Editar a manutenção?" onConfirm={() => this.props.handleEdit(id)}>
+              <EditTwoTone style={{ fontSize: '20px', marginRight:'1rem'}} />
+            </Popconfirm>
+            
+            <Popconfirm title="Quer realmente excluir essa manutenção?" onConfirm={() => this.props.handleDelete(id)}>
               <RestOutlined style={{ fontSize: '20px', color: '#08c' }}/>
             </Popconfirm>
             
@@ -140,10 +167,9 @@ class App extends React.Component {
           )
       }
     ];
-    return <Table bordered columns={columns}  dataSource={data} scroll={{ x: 400 }}
-      expandable={{
-      expandedRowRender: record => <p style={{ margin: 0 }}>{record.descricao}</p>
-    }}
+    return <Table bordered columns={columns}  dataSource={dados} scroll={{ x: 400 }}
+      expandable={{ expandedRowRender: record => <> <Title level={5}>Descrição</Title> 
+                                                    <p style={{ margin: 0 }}> {record.descricao}</p> </> }}
     />;
   }
 }

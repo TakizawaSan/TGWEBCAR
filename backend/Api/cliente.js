@@ -40,7 +40,8 @@ module.exports = app =>{
                 }else{
                     app.db('cliente')
                         .insert(clienteConst)
-                        .then(_ => res.status(204).send())
+                        .returning('id')
+                        .then(id => res.json(id))
                         .catch(err => res.status(500).send(err))
                 }
             }catch (msg){
@@ -55,7 +56,6 @@ module.exports = app =>{
     }
     const get = (req, res) => {
         app.db('cliente')
-            .select('id', 'nome', 'idLogin')
             .then(camaleao => res.json(camaleao))
             .catch(err => res.status(500).send(err))
     }

@@ -3,21 +3,17 @@ import { Table, Input, Button, Space, Popconfirm, Descriptions} from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined, RestOutlined,EditTwoTone } from '@ant-design/icons';
 
-const data = [];
-for (let i = 10; i < 50; i++) {
-  data.push({
-    key: i,
-    titulo: `John Brown ${i}`,
-    descricao:'Uma ae bem a vontade',
-    tempoEstimado: `1${i}h`,
-  },);
-}
-
 class App extends React.Component {
-  state = {
-    searchText: '',
-    searchedColumn: '',
-  };
+
+  constructor(props){
+    super(props)
+    console.log(props)
+    props.buscarAtividade()
+    this.state = {
+      searchText: '',
+      searchedColumn: '',
+    };
+  }
 
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -97,6 +93,18 @@ class App extends React.Component {
     this.setState({ searchText: '' });
   };
   render() {
+    const dado = this.props.atividades
+    //console.log(dado)
+    //const dados = this.multipicaDados(dado)
+    const dados = dado.map( dad => (
+      { key:dad.id + '1',
+        id:dad.id,
+        tempoEstimado:dad.tempoEstimado > 1 ? `${parseInt(dad.tempoEstimado)} Horas`:'Indeterminado',
+        titulo:dad.titulo,
+        descricao:dad.descricao 
+      }))
+    //const dados = this.organizaDados([dado])
+
     const columns = [
       {
         title: 'Titulo',
@@ -109,18 +117,19 @@ class App extends React.Component {
       {
         title: 'Tempo Estimado',
         dataIndex: 'tempoEstimado',
-        key: 'tempoEstimado',
-        sorter: (a, b) => a - b,
+        key: 'tempoEstimado'
       },
       {
-        title: '',
-        dataIndex: 'operation',
+        title: 'id',
+        dataIndex: 'id',
         width: '8%',
-        render: () =>
+        render: id =>
           (
             <>
-            <a><EditTwoTone style={{ fontSize: '20px', marginRight:'1rem'}} /></a>
-            <Popconfirm title="Deseja excluir essa manutenção?" onConfirm={() => this.handleDelete()}>
+            <Popconfirm title=" Editar a manutenção?" onConfirm={() => this.props.handleEdit(id)}>
+              <EditTwoTone style={{ fontSize: '20px', marginRight:'1rem'}} />
+            </Popconfirm>
+            <Popconfirm title="Deseja excluir essa manutenção?" onConfirm={() => this.props.handleDelete(id)}>
               <RestOutlined style={{ fontSize: '20px', color: '#08c' }}/>
             </Popconfirm>
             
@@ -128,8 +137,11 @@ class App extends React.Component {
           )
       }
     ];
-    return <Table bordered columns={columns}  dataSource={data} scroll={{ x: 400 }} 
-            expandable={{ expandedRowRender: record => <p style={{ margin: 0 }}>{record.descricao}</p> }}
+    return <Table bordered columns={columns}  dataSource={dados} scroll={{ x: 400 }} 
+            expandable={{ expandedRowRender: record => 
+              <Descriptions title="Descrição">
+                    <Descriptions.Item className='conf-desciI' label="">{record.descricao}</Descriptions.Item>
+              </Descriptions>}}
     />;
   }
 }

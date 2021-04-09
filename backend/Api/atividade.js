@@ -1,5 +1,5 @@
 module.exports = app =>{
-    const { existsOrError,notExistsOrError } = app.api.validation
+    const { existsOrError, notExistsOrError } = app.api.validation
     
     const save = async (req, res) => {
 
@@ -83,6 +83,7 @@ module.exports = app =>{
         app.db('atividade')
         .then(atividades => res.json(withPath(atividades)))
         .catch(err => res.status(500).send(err))
+        
     }
 
     const getById = (req, res) => {

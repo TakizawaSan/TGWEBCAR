@@ -46,6 +46,13 @@ module.exports = app =>{
             .then(camaleao => res.json(camaleao))
             .catch(err => res.status(500).send(err))
     }
+    const getByManu = (req, res) => {
+        app.db('manutencao-atividade')
+            .where({ idManutencao: req.params.id })
+            .first()
+            .then(camaleao => res.json(camaleao))
+            .catch(err => res.status(500).send(err))
+    }
     
     const remove = async (req, res) => {
         try {

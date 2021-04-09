@@ -13,6 +13,7 @@ httpClient.interceptors.request.use(async config => {
     }
     return config
 })
+
 class ApiService {
 
   constructor(apiurl){

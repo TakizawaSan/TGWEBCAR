@@ -33,7 +33,7 @@ function SiderComp(props) {
           Manutenções
           </Menu.Item>
           <Menu.Item key="2" onClick={handleClick} icon={<AuditOutlined />}>
-          Clientes
+          Pessoas
           </Menu.Item>
           <Menu.Item key="3" onClick={handleClick} icon={<FileDoneOutlined />}>
           Atividades

@@ -1,20 +1,26 @@
 import React from 'react';
 import { Form, Row, Button } from 'antd';
-import { Input, Space, Select } from 'antd';
+import { Input, Space } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Collapse } from 'antd';
 import { Divider } from 'antd';
 
 const { Panel } = Collapse;
-const { Option } = Select;
 
-const Forms = () =>{
+const Forms = ({ fields, acao }) =>{
+  
   const onFinish = (fieldsValue) => {
-    const values = fieldsValue
-    console.log('Received values of form:', values);
+    const login = { usuario : fieldsValue.usuario, senha: fieldsValue.senha }
+    const cliente = { nome: fieldsValue.nome, telefone: fieldsValue.telefone, endereco: fieldsValue.endereco,
+                      numero: fieldsValue.numero, complemento: fieldsValue.complemento, id: fields[0].id, idLogin: fields[0].idLogin}
+    const veiculo = fieldsValue.veiculos.map(vei => ({idCliente: null, ...vei}))
+
+    console.log('Received values of form:', veiculo);
+
+    acao(login, cliente, veiculo)
   };
   return(
-    <Form name="time_related_controls" onFinish={onFinish}> 
+    <Form name="time_related_controls" onFinish={onFinish} fields={fields}> 
       <Divider style={{marginTop:2}} orientation='left' dashed  >Login</Divider>
 
       <Space key={0} style={{ display: 'flex', paddingLeft:0, marginTop:"1rem"}}>
@@ -86,8 +92,8 @@ const Forms = () =>{
         <Input placeholder="Numero da Residencia" />
       </Form.Item>
       
-
-      <Form.List name="Atividades">
+      <Divider style={{marginTop:3}} orientation='left' dashed  > Veiculos </Divider>
+      <Form.List name="veiculos">
         {(fields, { add, remove }) => (
           <>
             {fields.map(field => (
@@ -95,8 +101,8 @@ const Forms = () =>{
               <Form.Item
                 {...field}
                 className='inpForm'
-                name={[field.name, 'descrição']}
-                fieldKey={[field.fieldKey, 'descrição']}
+                name={[field.name, 'descricao']}
+                fieldKey={[field.fieldKey, 'descricao']}
                 rules={[{ required: true, message: 'Ex: Astra Preto' }]}
               >
                 <Input placeholder="Descrição" />
@@ -140,13 +146,15 @@ const Forms = () =>{
     </Form>
   )
 }
-const FormEdit = () => {
+const FormEdit = props => {
+  const { acao, fields } = props
   return (
     <Collapse bordered={false}  className='form'  defaultActiveKey={['1']}>
-      <Panel header="Novo Cliente"  key="1">
-        <Forms/>
-      </Panel>
-  </Collapse>
+    <Panel header={fields[0].idCliente === '' ? "Novo Cliente":'Editar Cliente' }  key="1">
+      <Forms  acao={acao} fields={fields}  />
+    </Panel>
+</Collapse>
+  
     
   );
 };
